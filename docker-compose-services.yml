@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  my-app1: &default-app
+    hostname: my-app1
+    image: vandeilsonln/nginx-study
+    depends_on:
+      - db-app
+    networks:
+      - kong-net
+    ports:
+      - "8080:8080"
+
+  my-app2:
+    hostname: my-app2
+    <<: *default-app
+    ports:
+      - "8081:8080"
+
+  my-app3:
+    hostname: my-app3
+    <<: *default-app
+    ports:
+      - "8082:8080"
+
+  db-app:
+    image: postgres:latest
+    hostname: db
+    environment:
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=nginx-app
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    command: postgres -c checkpoint_timeout=600 -c max_wal_size=4096
+    networks:
+      - kong-net
+
+networks:
+  kong-net:
+    name: kong-net
+    driver: bridge
