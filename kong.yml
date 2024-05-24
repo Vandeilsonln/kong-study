@@ -15,9 +15,14 @@ services:
   - host: my-app1
     name: test-app
     port: 8080
+    path: /
     protocol: http
     routes:
       - name: get-transactions
+        protocols:
+          - http
+        methods:
+          - GET
         paths:
           - /banking
-        strip_path: false
+        strip_path: true
