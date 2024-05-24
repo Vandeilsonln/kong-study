@@ -1,0 +1,23 @@
+_format_version: "3.0"
+_transform: true
+
+services:
+  - host: httpbin.org
+    name: example_service
+    port: 80
+    protocol: http
+    routes:
+      - name: example_route
+        paths:
+          - /mock
+        strip_path: true
+
+  - host: my-app1
+    name: test-app
+    port: 8080
+    protocol: http
+    routes:
+      - name: get-transactions
+        paths:
+          - /banking
+        strip_path: false
