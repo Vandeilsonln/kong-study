@@ -26,3 +26,18 @@ services:
         paths:
           - /banking
         strip_path: true
+
+  - host: my-app2
+    name: test-app2
+    port: 8080
+    path: /
+    protocol: http
+    routes:
+      - name: get-transactions2
+        protocols:
+          - http
+        methods:
+          - GET
+        paths:
+          - /banking2
+        strip_path: true
